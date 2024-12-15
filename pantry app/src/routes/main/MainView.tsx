@@ -7,7 +7,7 @@ import {
   useTheme,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SideMenu } from '../../components/SideMenu'
 import { MainTable } from '../../components/MainTable'
 import { Row } from '../../components/styled/Row.styles'
@@ -21,6 +21,20 @@ export const MainView = () => {
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const fetchTables = async () => {
+    try {
+      const result = await fetch('http://pantry.tryasp.net/table/1')
+      const table = await result.json()
+      console.log(table)
+    } catch (error) {
+      console.error('Failed to fetch tables', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchTables()
+  }, [])
 
   const handleOpenModal = () => setIsModalOpen(true)
   return (
