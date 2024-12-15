@@ -10,14 +10,17 @@ import MenuIcon from '@mui/icons-material/Menu'
 import { useState } from 'react'
 import { SideMenu } from '../../components/SideMenu'
 import { MainTable } from '../../components/MainTable'
-import { Row } from '../../components/Row'
+import { Row } from '../../components/styled/Row.styles'
 
 import { mockItems } from '../../mockItems'
+import { AddButton } from '../../components/AddButton'
 
 export const MainView = () => {
   const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
   const [open, setOpen] = useState(false)
+
+  const handleAddItem = () => {}
   return (
     <div>
       <Row>
@@ -38,6 +41,7 @@ export const MainView = () => {
           <MainTable items={mockItems} />
         </Grid>
       </Grid>
+      <AddButton onClick={handleAddItem} />
       {!isDesktop && (
         <Drawer variant='temporary' open={open} onClose={() => setOpen(false)}>
           <Box sx={{ minWidth: '90vw' }}>
