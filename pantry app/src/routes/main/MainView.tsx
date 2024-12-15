@@ -14,19 +14,21 @@ import { Row } from '../../components/styled/Row.styles'
 
 import { mockItems } from '../../mockItems'
 import { AddButton } from '../../components/AddButton'
+import { AddItemsModal } from '../../components/AddItemsModal'
 
 export const MainView = () => {
   const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
-  const [open, setOpen] = useState(false)
+  const [isSideMenuOpen, setIsSideMenuOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const handleAddItem = () => {}
+  const handleOpenModal = () => setIsModalOpen(true)
   return (
     <div>
       <Row>
         <h1>My tables</h1>
         {!isDesktop && (
-          <IconButton onClick={() => setOpen((prev) => !prev)}>
+          <IconButton onClick={() => setIsSideMenuOpen((prev) => !prev)}>
             <MenuIcon />
           </IconButton>
         )}
@@ -41,14 +43,19 @@ export const MainView = () => {
           <MainTable items={mockItems} />
         </Grid>
       </Grid>
-      <AddButton onClick={handleAddItem} />
+      <AddButton onClick={handleOpenModal} />
       {!isDesktop && (
-        <Drawer variant='temporary' open={open} onClose={() => setOpen(false)}>
+        <Drawer
+          variant='temporary'
+          open={isSideMenuOpen}
+          onClose={() => setIsSideMenuOpen(false)}
+        >
           <Box sx={{ minWidth: '90vw' }}>
             <SideMenu />
           </Box>
         </Drawer>
       )}
+      <AddItemsModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   )
 }
