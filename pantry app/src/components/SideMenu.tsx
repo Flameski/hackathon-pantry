@@ -1,4 +1,4 @@
-import { Row } from './Row'
+import { Row } from './styled/Row.styles'
 
 export const SideMenu = () => {
   return (
