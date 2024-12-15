@@ -12,24 +12,35 @@ import { SideMenu } from '../../components/SideMenu'
 import { MainTable } from '../../components/MainTable'
 import { Row } from '../../components/styled/Row.styles'
 
-import { mockItems } from '../../mockItems'
 import { AddButton } from '../../components/AddButton'
 import { AddItemsModal } from '../../components/AddItemsModal'
+import { Item } from '../../types/Item.type'
+import { Table } from '../../types/Table.type'
 
 export const MainView = () => {
   const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [tableId, setTableId] = useState<number | null>(null)
+  const [tableItems, setTableItems] = useState<Item[]>([])
 
   const fetchTables = async () => {
     try {
       const result = await fetch('http://pantry.tryasp.net/table/1')
-      const table = await result.json()
+      const table: Table = await result.json()
+      setTableId(table.id)
       console.log(table)
+      transformTableData(table)
     } catch (error) {
       console.error('Failed to fetch tables', error)
     }
+  }
+
+  const transformTableData = (table: Table) => {
+    const items = table.products.map((item) => item)
+    console.log(items)
+    setTableItems(items)
   }
 
   useEffect(() => {
@@ -54,7 +65,7 @@ export const MainView = () => {
           </Box>
         </Grid>
         <Grid size={{ xs: 12, md: 9 }}>
-          <MainTable items={mockItems} />
+          <MainTable items={tableItems} />
         </Grid>
       </Grid>
       <AddButton onClick={handleOpenModal} />
@@ -69,7 +80,11 @@ export const MainView = () => {
           </Box>
         </Drawer>
       )}
-      <AddItemsModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <AddItemsModal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        tableId={tableId}
+      />
     </div>
   )
 }

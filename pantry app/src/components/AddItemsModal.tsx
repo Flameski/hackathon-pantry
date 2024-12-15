@@ -12,11 +12,16 @@ import {
 import { ButtonsRow } from './styled/ButtonsRow'
 
 interface AddItemsModalProps {
+  tableId: number | null
   open: boolean
   onClose: () => void
 }
 
-export const AddItemsModal = ({ open, onClose }: AddItemsModalProps) => {
+export const AddItemsModal = ({
+  open,
+  onClose,
+  tableId,
+}: AddItemsModalProps) => {
   return (
     <Dialog open={open} onClose={onClose} maxWidth='lg'>
       <Box width={800} p={4}>
